@@ -1,4 +1,5 @@
 # kraft x docker
+Kafka zookeeperless, implement RAFT protocol for self maintaining clustership
 
 ### **tl;dr**: 
 
