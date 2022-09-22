@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+export KAFKA_HOME=${KAFKA_HOME:-/opt/kafka}
 
 default_id=1
 default_controller_port=9093
@@ -21,13 +23,11 @@ export DOCKER_EXTERNAL_IP=${DOCKER_EXTERNAL_IP:-localhost}
 export DOCKER_EXTERNAL_PORT=${DOCKER_EXTERNAL_PORT:-9092}
 
 # others
-export KAFKA_LOG_DIR=${KAFKA_LOG_DIR:-/tmp/kraft-combined-logs}
+export KAFKA_LOG_DIR=/data/kraft # how to allow create new file here if not root???
 export KAFKA_DEFAULT_NUM_PARTITIONS=${KAFKA_DEFAULT_NUM_PARTITIONS:-1}
 export KAFKA_THREAD_PER_DIR=${KAFKA_THREAD_PER_DIR:-1}
 export KAFKA_META_REPLICATION_FACTOR=${KAFKA_META_REPLICATION_FACTOR:-1}
 export KAFKA_RETENTION=${KAFKA_RETENTION:-168}
 
-export KAFKA_HOME=${KAFKA_HOME:-/opt/kafka}
 
 envsubst < "${KAFKA_HOME}/config/kraft/server.tpl.properties" > "${KAFKA_HOME}/config/kraft/server.properties"
-rm ${KAFKA_HOME}/config/kraft/server.tpl.properties

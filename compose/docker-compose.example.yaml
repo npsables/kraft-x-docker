@@ -1,0 +1,80 @@
+version: "3.7"
+
+networks:
+  kafka-net:
+    ipam:
+      config:
+        - subnet: 192.168.0.0/16
+          gateway: 192.168.0.1
+
+services:
+  kafka1:
+    container_name: kafka1
+    image: npsables/kraft-x-docker:3.2.3
+    ports:
+        - "9092:9092"
+    environment:
+      - KAFKA_ID=1
+      - KAFKA_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+      - KAFKA_CONTROLLER_PORT=9093
+      - KAFKA_LISTENER_IP=kafka1
+      - DOCKER_EXTERNAL_IP=192.168.80.1
+      - KAFKA_DEFAULT_NUM_PARTITIONS=3
+      - KAFKA_META_REPLICATION_FACTOR=1
+    entrypoint: /entrypoint.sh
+    networks:
+      kafka-net:
+        ipv4_address: 192.168.80.1
+    volumes:
+    - kafka_data1:/data/kraft
+    - ./entrypoint.sh:/entrypoint.sh
+
+  kafka2:
+    container_name: kafka2
+    image: npsables/kraft-x-docker:3.2.3
+    ports:
+        - "8092:9092"
+    environment:
+      - KAFKA_ID=2
+      - KAFKA_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+      - KAFKA_CONTROLLER_PORT=9093
+      - KAFKA_LISTENER_IP=kafka2
+      - DOCKER_EXTERNAL_IP=192.168.80.2
+      - KAFKA_DEFAULT_NUM_PARTITIONS=3
+      - KAFKA_META_REPLICATION_FACTOR=1
+    entrypoint: /entrypoint.sh
+    networks:
+      kafka-net:
+        ipv4_address: 192.168.80.2
+    volumes:
+    - kafka_data2:/data/kraft
+    - ./entrypoint.sh:/entrypoint.sh
+
+  kafka3:
+    container_name: kafka3
+    image: npsables/kraft-x-docker:3.2.3
+    ports:
+        - "7092:9092"
+    environment:
+      - KAFKA_ID=3
+      - KAFKA_QUORUM_VOTERS=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093
+      - KAFKA_CONTROLLER_PORT=9093
+      - KAFKA_LISTENER_IP=kafka3
+      - DOCKER_EXTERNAL_IP=192.168.80.3
+      - KAFKA_DEFAULT_NUM_PARTITIONS=3
+      - KAFKA_META_REPLICATION_FACTOR=1
+    entrypoint: /entrypoint.sh
+    networks:
+      kafka-net:
+        ipv4_address: 192.168.80.3
+    volumes:
+    - kafka_data3:/data/kraft
+    - ./entrypoint.sh:/entrypoint.sh
+
+volumes:
+  kafka_data1:
+    external: false
+  kafka_data2:
+    external: false
+  kafka_data3:
+    external: false

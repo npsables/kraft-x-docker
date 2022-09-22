@@ -1,7 +1,7 @@
 FROM openjdk:11-jdk-slim
 
 ENV SCALA_VERSION=2.12
-ENV KAFKA_VERSION 3.2.0
+ENV KAFKA_VERSION 3.2.3
 
 RUN set -ex; \
   apt-get update; \
@@ -19,6 +19,7 @@ WORKDIR $KAFKA_HOME
 
 ARG KAFKA_ARCHIVE=https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz
 RUN set -ex; \
+    mkdir -p /data/kraft && chown kafka:kafka /data/kraft; \ 
     wget -nv -O kafka.tgz "${KAFKA_ARCHIVE}"; \
     tar -xvzf kafka.tgz --strip-components=1; \
     rm kafka.tgz; \
