@@ -1,5 +1,5 @@
-# kraft x docker
-Kafka zookeeperless, implement RAFT protocol for self maintaining clustership
+# Kraft x Docker
+**Kafka Zookeeperless**, implement RAFT protocol for self maintaining clustership
 
 ### **tl;dr**: 
 
@@ -13,7 +13,7 @@ You need to set **advertised.listeners** (or KAFKA_ADVERTISED_LISTENERS if youâ€
 - npsables/kraft-x-docker:3.2.3
 
 ### stand alone:
-- docker run -p 9092:9092 --name kraft kraft-x-docker:3.2.3
+- docker run -p 9092:9092 --name kraft npsables/kraft-x-docker:3.2.3
 
 ### cluster (but u know what I mean)
 - cd compose
