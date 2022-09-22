@@ -32,4 +32,3 @@ RUN chmod +x ./entrypoint.sh && chmod +x ./generate_properties.sh
 EXPOSE 9092
 USER kafka
 ENTRYPOINT ["./entrypoint.sh"]
-CMD ["exec", "$@"]
